@@ -116,7 +116,7 @@ python scripts\amazon_account_patrol.py `
 
 ## 使用指引与技术资料
 
-- [HTML 图文使用指引](使用指引.html)：下载仓库后直接用浏览器打开，包含分页演示、主题切换和复制按钮。
+- [HTML 图文使用指引](blues19-amazon-account-patrol-使用指引.html)：图片已经内嵌，单独下载这个 HTML 也能完整显示；包含分页演示、主题切换和复制按钮。
 - [环境安装与配置](references/setup.md)：Python、Node.js、`ziniao-cli`、授权和店铺可见性检查。
 - [巡检执行流程](references/workflow.md)：状态机、证据标准和重试边界。
 - [市场映射](references/marketplace-label-map.md)：9 个市场的公开标识。
@@ -137,7 +137,7 @@ blues19-amazon-account-patrol/
 ├─ assets/
 │  ├─ wechat-logo.jpg
 │  └─ patrol-report-example.png
-└─ 使用指引.html
+└─ blues19-amazon-account-patrol-使用指引.html
 ```
 
 公众号：**拾玖说跨境AI**
