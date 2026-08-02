@@ -1,0 +1,4 @@
+interface:
+  display_name: "Blues19 Amazon Account Patrol"
+  short_description: "Read-only Seller Central patrol with verified evidence."
+  default_prompt: "Use $blues19-amazon-account-patrol to run a read-only Seller Central patrol for a chosen Ziniao store and marketplaces."

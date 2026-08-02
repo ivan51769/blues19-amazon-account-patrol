@@ -1,0 +1,17 @@
+# Runtime evidence (may contain store or account information)
+amazon-patrol-output/
+*.log
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
