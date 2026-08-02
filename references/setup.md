@@ -2,7 +2,9 @@
 
 官方依据：[紫鸟 CLI 官方页面](https://open.ziniao.com/ziniaoCli)及其[安装指南](https://open.ziniao.com/docSupport?docId=281)。本文件在官方 CLI 步骤之外，补充本巡检脚本自身的 Python 和店铺可见性检查。
 
-## 安装 Skill 本体
+> 推荐顺序：先完成下方 Node.js、`ziniao-cli`、授权和店铺可见性检查，再安装 `blues19-amazon-account-patrol`，最后验证 Python 脚本。
+
+## 安装 Skill 本体（环境验证后）
 
 将当前完整文件夹安装到智能体的 Skills 目录，安装后的目录名必须为 `blues19-amazon-account-patrol`，并完整保留 `SKILL.md`、`agents/`、`scripts/`、`references/`、`assets/` 与 `tests/`。不要只复制 `SKILL.md`；否则界面元数据、确定性运行脚本、验证用例和按需加载的参考资料都会缺失。
 

@@ -12,9 +12,36 @@
 - 保存实际页面 URL、页面原文、截图路径、Markdown 记录和运行日志。
 - 默认只保存到本地；只有用户明确要求时才发送到飞书。
 
-> 本 Skill 的主体是 `blues19-amazon-account-patrol`；`ziniao-cli` 是连接紫鸟浏览器店铺会话的运行依赖，不是巡检内容本身。
+> 本 Skill 的主体是 `blues19-amazon-account-patrol`；[`ziniao-cli`](https://open.ziniao.com/ziniaoCli) 是连接紫鸟浏览器店铺会话的必需运行环境。**请先安装并验证 ziniao-cli，再安装本 Skill。**
 
-## 一句话安装
+## 使用顺序
+
+1. 安装 Node.js 16+ 与 `ziniao-cli`。
+2. 完成 CLI 授权，并通过 `doctor`、`config show` 和 `store list` 验证。
+3. 安装 `blues19-amazon-account-patrol`。
+4. 确认 Python 3.10+，再选择店铺与市场运行巡检。
+
+## 第一步：准备 ziniao-cli 环境
+
+需要紫鸟浏览器客户端、可访问的目标店铺，以及 Node.js 16 或更高版本。Windows PowerShell：
+
+```powershell
+node -v
+npm.cmd install -g @ziniao-open/cli
+ziniao-cli.cmd --version
+ziniao-cli.cmd config init --new
+ziniao-cli.cmd doctor
+ziniao-cli.cmd config show
+ziniao-cli.cmd store list --format table
+```
+
+如果已经安装 CLI，可以跳过全局安装，但仍需完成后续四项验证。全局安装和授权会修改本机配置；如果让智能体执行，应先取得用户批准，授权链接必须由用户本人在浏览器中完成。
+
+完整步骤见 [环境安装与配置](references/setup.md)。
+
+## 第二步：安装本 Skill
+
+ziniao-cli 环境验证通过后，再安装 Skill。
 
 Windows PowerShell：
 
@@ -30,31 +57,11 @@ npx skills add ivan51769/blues19-amazon-account-patrol -y
 
 也可以把下面这句话直接发给智能体：
 
-> 请从 https://github.com/ivan51769/blues19-amazon-account-patrol 安装完整 Skill，安装名称必须是 `blues19-amazon-account-patrol`，并保留 `SKILL.md`、`agents`、`scripts`、`references`、`assets` 和 `tests`。安装后验证 Python 3.10+、脚本 `--help` 和全部测试；如果缺少或尚未初始化 `ziniao-cli`，先说明需要执行的全局安装与授权操作，取得我的批准后再完成，并用 `doctor`、`config show` 和 `store list` 验证。不要写入真实店铺 ID、账号凭证或飞书密钥。
+> 请先检查并准备 ziniao-cli 运行环境：确认 Node.js 16+，如缺少 `@ziniao-open/cli`，先说明需要执行的全局安装与授权操作，取得我的批准后再完成；使用 `config init --new` 初始化，并以 `doctor`、`config show` 和 `store list` 验证配置与目标店铺可见性。环境通过后，再从 https://github.com/ivan51769/blues19-amazon-account-patrol 安装完整 Skill，安装名称必须是 `blues19-amazon-account-patrol`，并保留 `SKILL.md`、`agents`、`scripts`、`references`、`assets` 和 `tests`。最后验证 Python 3.10+、脚本 `--help` 和全部测试。不要写入真实店铺 ID、账号凭证或飞书密钥。
 
-## 环境要求
+## 第三步：运行巡检
 
-- Python 3.10 或更高版本；巡检脚本只使用标准库。
-- Node.js 16 或更高版本。
-- 紫鸟浏览器客户端与可访问的目标店铺。
-- 已安装并完成授权配置的 [`ziniao-cli`](https://open.ziniao.com/ziniaoCli)。
-
-首次配置可参考：
-
-```powershell
-node -v
-npm.cmd install -g @ziniao-open/cli
-ziniao-cli.cmd config init --new
-ziniao-cli.cmd doctor
-ziniao-cli.cmd config show
-ziniao-cli.cmd store list --format table
-```
-
-全局安装和授权会修改本机配置。如果让智能体执行，应先取得用户批准；授权链接必须由用户本人在浏览器中完成。
-
-完整步骤见 [环境安装与配置](references/setup.md)。
-
-## 快速使用
+巡检脚本要求 Python 3.10 或更高版本，并且只使用标准库。
 
 先查询当前成员可见的店铺：
 
@@ -89,6 +96,16 @@ python scripts\amazon_account_patrol.py `
 
 > 使用 `$blues19-amazon-account-patrol` 对我指定的店铺执行美国站只读巡检，只保存本地记录，不发送飞书；先确认店铺 ID 和市场，缺少必要信息时停止并告诉我。
 
+## 效果预览
+
+<div align="center">
+  <a href="assets/patrol-report-example.png">
+    <img src="assets/patrol-report-example.png" width="760" alt="脱敏的亚马逊六国账户巡检周报效果示例">
+  </a>
+</div>
+
+> 这是历史六国巡检周报的脱敏效果示例，仅用于展示报告形态；当前 Skill 已扩展到九个市场，实际结果以本次巡检采集的证据为准。
+
 ## 安全边界
 
 - 只复用目标紫鸟店铺已有会话和自动填充，不接收或保存 Amazon 密码、OTP。
@@ -117,7 +134,9 @@ blues19-amazon-account-patrol/
 ├─ scripts/amazon_account_patrol.py
 ├─ references/
 ├─ tests/
-├─ assets/wechat-logo.jpg
+├─ assets/
+│  ├─ wechat-logo.jpg
+│  └─ patrol-report-example.png
 └─ 使用指引.html
 ```
 
