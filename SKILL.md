@@ -21,9 +21,12 @@ Run a read-only patrol against the store and marketplaces explicitly supplied by
 Read [references/setup.md](references/setup.md) when installing or configuring the required environment.
 
 1. Confirm the user-selected Ziniao store ID and target marketplace codes.
-2. Confirm the local `ziniao-cli` is installed and authenticated. Resolve it from `ZINIAO_CLI` or `PATH`; never hardcode a personal installation path.
-3. If the user requires a working-hours gate, obtain both an IANA timezone and a `HH:MM-HH:MM` window. Otherwise do not impose a store-specific schedule.
-4. Default to local-only output. Require an explicit request before adding `--send-feishu`.
+2. Determine whether the current Ziniao identity is a BOSS account or member account. Both can create a CLI app, but a member-created app must be approved by the BOSS before it becomes active. Require the Ziniao client and Open Platform to use the same intended account.
+3. Confirm the local `ziniao-cli` is installed and authenticated. Resolve it from `ZINIAO_CLI` or `PATH`; never hardcode a personal installation path.
+4. Run `ziniao-cli store list --format table` and require the target store to be visible. CLI app approval and store authorization are separate: if the store is missing, stop and ask the BOSS or an authorized administrator to grant only that store; never request credentials or enterprise-wide management access.
+5. If the user requires a working-hours gate, obtain both an IANA timezone and a `HH:MM-HH:MM` window. Otherwise do not impose a store-specific schedule.
+6. Default to local-only output. Require an explicit request before adding `--send-feishu`.
+7. For optional Feishu delivery, require an already published self-built app with bot capability, the minimum send-message and image-upload permissions, and a bot that is present in the confirmed destination chat. Do not treat `lark-cli` or a Feishu plugin as a runtime dependency. Never ask the user to paste the App Secret; only check that local environment variables exist without echoing them, and reconfirm before any test send.
 
 ## Run the patrol
 
@@ -74,6 +77,6 @@ Keep uncertainty explicit. Never replace missing or ambiguous evidence with an i
 - Refresh a crash or browser-error page at most twice, then stop that marketplace.
 - Never resubmit a stale or missing OTP.
 - Continue remaining marketplaces in a batch while preserving the exact failed operation and log path.
-- Report Feishu API acceptance only after it returns code `0` and a non-empty `message_id`; verify actual chat delivery separately when the user requires delivery proof. Local record creation does not prove delivery.
+- Report Feishu API acceptance only after every response returns code `0` with a non-empty `message_id`, and the final `feishu.message_ids` list is non-empty; then verify actual chat visibility separately when the user requires delivery proof. Local record creation does not prove delivery.
 
 Read [references/workflow.md](references/workflow.md) for the state machine, verification requirements, and retry boundaries.

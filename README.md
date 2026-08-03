@@ -17,9 +17,10 @@
 ## 使用顺序
 
 1. 安装 Node.js 16+ 与 `ziniao-cli`。
-2. 完成 CLI 授权，并通过 `doctor`、`config show` 和 `store list` 验证。
-3. 安装 `blues19-amazon-account-patrol`。
-4. 确认 Python 3.10+，再选择店铺与市场运行巡检。
+2. 确认当前使用 BOSS 账号还是成员账号，再完成 CLI 应用创建与授权。
+3. 成员创建的 CLI 应用由 BOSS 审核通过后，再用 `doctor`、`config show` 和 `store list` 验证。
+4. 安装 `blues19-amazon-account-patrol`。
+5. 确认 Python 3.10+，再选择店铺与市场运行巡检。
 
 ## 第一步：准备 ziniao-cli 环境
 
@@ -35,7 +36,20 @@ ziniao-cli.cmd config show
 ziniao-cli.cmd store list --format table
 ```
 
-如果已经安装 CLI，可以跳过全局安装，但仍需完成后续四项验证。全局安装和授权会修改本机配置；如果让智能体执行，应先取得用户批准，授权链接必须由用户本人在浏览器中完成。
+如果已经安装 CLI，可以跳过全局安装，但仍需完成初始化、诊断、当前配置和店铺可见性检查。全局安装和授权会修改本机配置；如果让智能体执行，应先取得用户批准，授权链接必须由用户本人在浏览器中完成。
+
+### 先分清：BOSS 账号与成员账号
+
+| 账号 | 都可以做什么 | 关键区别 |
+| --- | --- | --- |
+| BOSS 账号 | 自行创建紫鸟 CLI 应用 | 填写应用名称、勾选所需权限并提交后即可创建；同时负责在开放平台的“应用审核”中审核成员创建的 CLI 应用。 |
+| 成员账号 | 自行创建紫鸟 CLI 应用 | 通过初始化产生的授权链接登录后，系统自动创建应用；必须由 BOSS 审核通过，应用才会生效。 |
+
+初始化前，紫鸟客户端与开放平台必须登录准备使用 CLI 的同一账号。第一台设备会自动添加本机终端；换电脑或新增设备时，要在对应 CLI 应用的“设置 → 终端管理”中绑定终端识别码。
+
+> CLI 应用审核与店铺授权是两层权限。应用审核通过，不代表成员自动获得全部店铺。若 `store list` 看不到目标店铺，应停止巡检，请 BOSS 或有权限的管理员在成员管理中补充目标店铺授权，再重新验证。本巡检只需要目标店铺的浏览器只读访问，不需要扩大为企业管理权限。
+
+学员可直接阅读紫鸟官方的 [CLI 创建应用和授权流程](https://open.ziniao.com/docSupport?docId=281#%E4%B8%80%E3%80%81%E5%89%8D%E7%BD%AE%E9%80%9A%E7%94%A8%E5%BF%85%E5%81%9A%E4%BA%8B%E9%A1%B9%EF%BC%88%E6%93%8D%E4%BD%9C%E5%89%8D%E4%BC%98%E5%85%88%E6%89%A7%E8%A1%8C%EF%BC%890) 和 [成员店铺授权说明](https://www.ziniao.com/help/docs/team/17363304414278)。
 
 完整步骤见 [环境安装与配置](references/setup.md)。
 
@@ -57,7 +71,17 @@ npx skills add ivan51769/blues19-amazon-account-patrol -y
 
 也可以把下面这句话直接发给智能体：
 
-> 请先检查并准备 ziniao-cli 运行环境：确认 Node.js 16+，如缺少 `@ziniao-open/cli`，先说明需要执行的全局安装与授权操作，取得我的批准后再完成；使用 `config init --new` 初始化，并以 `doctor`、`config show` 和 `store list` 验证配置与目标店铺可见性。环境通过后，再从 https://github.com/ivan51769/blues19-amazon-account-patrol 安装完整 Skill，安装名称必须是 `blues19-amazon-account-patrol`，并保留 `SKILL.md`、`agents`、`scripts`、`references`、`assets` 和 `tests`。最后验证 Python 3.10+、脚本 `--help` 和全部测试。不要写入真实店铺 ID、账号凭证或飞书密钥。
+> 请协助我安装 `blues19-amazon-account-patrol`。先按紫鸟官方文档检查 Node.js 16+ 并准备 `ziniao-cli`；初始化前先问清我是 BOSS 账号还是成员账号。两种账号都能创建 CLI 应用，但成员创建后必须暂停并提醒我让 BOSS 在开放平台完成应用审核。授权链接由我本人打开，不要接收密码、OTP 或密钥；确认紫鸟客户端与开放平台登录的是同一账号，并以 `doctor`、`config show` 和 `store list` 验证。若目标店铺不可见，停止并请 BOSS 或有权限的管理员授权，不要扩大权限。环境通过后，从 https://github.com/ivan51769/blues19-amazon-account-patrol 安装完整 Skill，安装名称必须是 `blues19-amazon-account-patrol`，保留 `SKILL.md`、`agents`、`scripts`、`references`、`assets` 和 `tests`，最后验证 Python 3.10+、脚本 `--help` 与全部测试。默认只配置本地输出，暂不接入飞书。
+
+### 可选：让 Codex 协助接入飞书
+
+本仓库直接调用飞书企业自建应用 OpenAPI，不把 `lark-cli`、飞书插件或群自定义机器人 Webhook 当作必需环境。先让本地巡检运行成功，再决定是否启用飞书。
+
+把下面这句话发给 Codex：
+
+> 请协助我为 `blues19-amazon-account-patrol` 配置可选飞书推送。先确认本地巡检已能运行；说明这套推送使用飞书企业自建应用 OpenAPI。指导我在飞书开发者后台创建或检查自建应用、开启机器人能力、申请“以应用身份发消息”和“获取与上传图片或文件资源”所需的最小权限、发布版本，并把机器人加入我确认的目标群。App ID、App Secret 只由我本人在本机 PowerShell 环境变量中填写，不粘贴到对话、源码或日志；检查时不得回显值。确认群聊 ID 与测试内容后，必须再次取得我的明确批准才能发送测试。只有接口返回 `code = 0` 且 `message_ids` 非空时，才能报告 API 已受理，并提醒我到群内确认实际可见。
+
+详细步骤见 [环境安装与配置：可选飞书推送](references/setup.md#可选飞书推送)。
 
 ## 第三步：运行巡检
 
@@ -116,13 +140,15 @@ python scripts\amazon_account_patrol.py `
 
 ## 使用指引与技术资料
 
-- [PDF 纵向新手使用指引](output/pdf/blues19-amazon-account-patrol-使用指引.pdf)：A4 纵向、全部章节连续展开；从打开 PowerShell 开始，按“ziniao-cli → 授权与店铺验证 → Skill → 巡检”逐步讲解，并包含脱敏周报截图。
-- [HTML 图文使用指引](blues19-amazon-account-patrol-使用指引.html)：图片已经内嵌，单独下载这个 HTML 也能完整显示；保留主题切换和复制按钮，打印时使用纵向连续版式。
+- [PDF 纵向新手使用指引](output/pdf/blues19-amazon-account-patrol-店铺巡检使用指引-拾玖说跨境AI.pdf)：A4 纵向、全部章节连续展开；从打开 PowerShell 开始，按“ziniao-cli → 账号与权限 → Skill → 巡检 → 可选飞书”逐步讲解，并包含脱敏周报截图、浅水印和联系二维码。
+- [HTML 图文使用指引](blues19-amazon-account-patrol-使用指引.html)：周报示例、公众号二维码和个人微信二维码均已内嵌，单独下载这个 HTML 也能完整显示；页面带轻量彩色描边水印，并保留主题切换和复制按钮。
 - [环境安装与配置](references/setup.md)：Python、Node.js、`ziniao-cli`、授权和店铺可见性检查。
 - [巡检执行流程](references/workflow.md)：状态机、证据标准和重试边界。
 - [市场映射](references/marketplace-label-map.md)：9 个市场的公开标识。
 - [页面选择器](references/element_selectors.md)：Seller Central 页面定位参考。
-- [紫鸟 CLI 官方文档](https://open.ziniao.com/ziniaoCli)：CLI 安装、能力和官方业务案例。
+- [紫鸟 CLI 官方入口](https://open.ziniao.com/ziniaoCli)：CLI 安装、能力和官方业务案例。
+- [紫鸟 CLI 创建应用和授权流程](https://open.ziniao.com/docSupport?docId=281#%E4%B8%80%E3%80%81%E5%89%8D%E7%BD%AE%E9%80%9A%E7%94%A8%E5%BF%85%E5%81%9A%E4%BA%8B%E9%A1%B9%EF%BC%88%E6%93%8D%E4%BD%9C%E5%89%8D%E4%BC%98%E5%85%88%E6%89%A7%E8%A1%8C%EF%BC%890)：BOSS/成员创建应用、审核、终端绑定与安装后校验。
+- [飞书发送消息 API](https://open.feishu.cn/document/server-docs/im-v1/message/create?lang=zh-CN)与[上传图片 API](https://open.feishu.cn/document/server-docs/im-v1/image/create?lang=zh-CN)：可选飞书推送的官方权限和前置条件。
 
 安装官方紫鸟 Skills 后，还可以围绕员工授权、网页访问策略、差评响应、运营报告、Listing 维护、库存巡检和批量截图等场景制作独立 Skill。本仓库只内置 Amazon 账号健康与绩效通知的只读巡检，不代表已包含上述扩展功能。
 
@@ -137,9 +163,11 @@ blues19-amazon-account-patrol/
 ├─ tests/
 ├─ assets/
 │  ├─ wechat-logo.jpg
+│  ├─ wechat-official-account-qr.png
+│  ├─ wechat-personal-qr.png
 │  └─ patrol-report-example.png
 ├─ output/pdf/
-│  └─ blues19-amazon-account-patrol-使用指引.pdf
+│  └─ blues19-amazon-account-patrol-店铺巡检使用指引-拾玖说跨境AI.pdf
 └─ blues19-amazon-account-patrol-使用指引.html
 ```
 
