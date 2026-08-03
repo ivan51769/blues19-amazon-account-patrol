@@ -619,6 +619,153 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition: none !important; animation: none !important; }
     }
+    .print-only { display: none; }
+
+    /* A4 纵向 PDF：顺序阅读、全部展开，不保留单屏 Tab 与页面内滚动。 */
+    @page { size: A4 portrait; margin: 13mm 12mm 17mm; }
+    @media print {
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      html, body, html.workspace-ready, html.workspace-ready body {
+        width: auto !important; height: auto !important; min-height: 0 !important; overflow: visible !important;
+      }
+      body {
+        background: #fff !important; color: var(--ink); font-size: 10.5pt; line-height: 1.55;
+      }
+      .print-only { display: block !important; }
+      .progress, .nav, .header-tools, .side, .copy-btn, .toast, noscript,
+      .install-view-tabs, .run-option-tabs, .report-example-link, .footer { display: none !important; }
+
+      .topbar {
+        position: static !important; border: 0 !important; background: transparent !important;
+        box-shadow: none !important; backdrop-filter: none !important;
+      }
+      .topbar-inner {
+        display: flex !important; width: 100% !important; min-height: 0 !important;
+        padding: 0 0 5mm !important; border-bottom: 1px solid var(--line);
+      }
+      .brand { color: var(--ink) !important; }
+      .brand-logo { width: 22mm !important; height: 22mm !important; }
+      .brand-copy strong { font-size: 18pt !important; }
+      .brand-copy small { display: block !important; color: var(--ink-soft) !important; font-size: 9.5pt !important; }
+
+      body > .wrap, .workspace-ready .workspace-shell {
+        display: block !important; width: 100% !important; height: auto !important;
+        min-height: 0 !important; margin: 0 !important; overflow: visible !important;
+      }
+      .layout, .workspace-ready .layout, main, .workspace-ready .workspace-main {
+        display: block !important; width: 100% !important; height: auto !important;
+        min-height: 0 !important; overflow: visible !important;
+      }
+      .workspace-panel, .workspace-panel.is-active, .workspace-panel[hidden],
+      .install-view-stage, .install-view-panel, .install-view-panel.is-active, .install-view-panel[hidden],
+      .run-workspace, .run-stage, .run-content-panel, .run-content-panel.is-active, .run-content-panel[hidden] {
+        display: block !important; width: 100% !important; height: auto !important;
+        min-height: 0 !important; overflow: visible !important;
+      }
+
+      .hero {
+        display: grid !important; grid-template-columns: 1fr !important; align-content: start;
+        gap: 8mm !important; min-height: 220mm !important; padding: 12mm 0 0 !important;
+        break-after: page; page-break-after: always;
+      }
+      .hero-copy { align-self: start; }
+      h1 { max-width: 165mm; margin-top: 5mm; font-size: 34pt !important; line-height: 1.08; }
+      .lead { max-width: 160mm; margin-top: 5mm; font-size: 14pt !important; }
+      .hero-badges { margin-top: 5mm; }
+      .badge { font-size: 9.5pt; }
+      .hero-art { min-height: 0 !important; padding: 6mm !important; border-radius: 6mm; box-shadow: none; }
+      .bird-route { margin: 6mm 0 5mm !important; }
+      .cli-chip { padding: 4mm; }
+
+      main section, .workspace-ready .workspace-panel {
+        margin: 0 !important; padding: 0 !important; break-before: page; page-break-before: always;
+      }
+      #architecture { break-before: auto; page-break-before: auto; }
+      #prompts { break-before: auto !important; page-break-before: auto !important; padding-top: 7mm !important; }
+      #architecture > .section-kicker, #architecture > h2, #architecture > .section-lead,
+      #architecture > .route-panel { grid-column: auto !important; grid-row: auto !important; }
+      .section-kicker { padding-top: 1mm; font-size: 9.5pt; }
+      h2 { margin-top: 2mm; font-size: 24pt !important; line-height: 1.15; }
+      h3 { font-size: 15pt; }
+      .section-lead { max-width: none; margin: 3mm 0 6mm; font-size: 11pt; }
+
+      .quick-copy {
+        display: block !important; grid-template-columns: 1fr !important; margin: 5mm 0 7mm !important;
+        border-radius: 4mm; break-inside: avoid; page-break-inside: avoid;
+      }
+      .quick-copy-content { padding: 5mm; }
+      .quick-copy-label { font-size: 9pt; }
+      .quick-copy blockquote { margin-top: 2mm; font-size: 10.5pt; line-height: 1.55; }
+
+      .route-panel { padding: 6mm; box-shadow: none; }
+      .route-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 3mm; }
+      .route-node { padding: 4mm 2mm; }
+      .route-node::after { display: none !important; }
+      .route-node.is-cli { transform: none; }
+      .route-note { margin-top: 4mm; padding: 4mm; }
+
+      .report-example {
+        display: grid !important; grid-template-columns: 1fr !important; gap: 4mm;
+        margin: 0 !important; padding: 4mm; background: #fff;
+        break-before: page; page-break-before: always; break-inside: avoid; page-break-inside: avoid;
+      }
+      .report-example-media {
+        display: flex !important; align-items: flex-start; justify-content: center;
+        height: auto !important; overflow: visible !important; border: 0; background: #fff; box-shadow: none;
+      }
+      .report-example-media::after { display: none !important; }
+      .report-example-media img { width: auto !important; max-width: 100%; max-height: 205mm; object-fit: contain; }
+      .report-example-copy strong { font-size: 15pt; }
+      .report-example-copy p { margin-bottom: 0; font-size: 9.5pt; }
+
+      .steps { grid-template-columns: repeat(2, 1fr) !important; gap: 3mm; }
+      .step { padding: 4mm; }
+      .step h3 { margin-top: 3mm; font-size: 13pt; }
+      .step p { font-size: 10pt; }
+      .code-card { margin-top: 5mm; break-inside: avoid; page-break-inside: avoid; }
+      .code-head { padding: 3mm 4mm; }
+      pre {
+        padding: 4mm; overflow: visible !important; white-space: pre-wrap !important;
+        overflow-wrap: anywhere; word-break: break-word; font-size: 8.8pt; line-height: 1.55;
+      }
+      .callout { margin-top: 4mm !important; padding: 4mm; break-inside: avoid; page-break-inside: avoid; }
+      .callout p { margin: 2mm 0 0; }
+      .official-resource-links { display: grid; grid-template-columns: 1fr 1fr; gap: 2mm; margin-top: 3mm; }
+      .official-resource-links a {
+        display: block; padding: 3mm; border: 1px solid rgba(112, 85, 30, .22);
+        border-radius: 3mm; color: #5b4417; background: rgba(255,255,255,.55); font-weight: 800; text-decoration: none;
+      }
+
+      .market-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 3mm; }
+      .market-card { padding: 4mm; break-inside: avoid; page-break-inside: avoid; }
+      .command-list { display: grid !important; grid-template-columns: 1fr !important; gap: 5mm; }
+      .command-item { display: block !important; padding: 5mm; break-inside: avoid; page-break-inside: avoid; }
+      .run-stage { padding: 0 !important; border: 0 !important; box-shadow: none !important; }
+      .run-prompts > .section-kicker, .run-prompts > h2, .run-prompts > .section-lead { display: block !important; }
+      .prompt-card { padding: 5mm !important; break-inside: avoid; page-break-inside: avoid; }
+
+      .output-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 3mm; }
+      .guard-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 3mm; }
+      .output-card, .guard { padding: 4mm; break-inside: avoid; page-break-inside: avoid; }
+      .safety-subtitle { margin-top: 5mm; }
+
+      .print-extension-heading { margin-bottom: 5mm; }
+      .print-extension-appendix { display: block !important; break-before: page; page-break-before: always; }
+      .extension-banner { display: grid; grid-template-columns: 1fr auto; gap: 4mm; padding: 5mm; }
+      .extension-pills { grid-column: 1 / -1; }
+      .official-link { align-self: start; }
+      .official-case-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 3mm; }
+      .official-case, .skill-maker-card, .extension-copy-card { break-inside: avoid; page-break-inside: avoid; }
+      .extension-bottom { grid-template-columns: 1fr !important; gap: 4mm; }
+      .skill-maker-steps { grid-template-columns: repeat(2, 1fr) !important; }
+      .extension-copy-card { padding: 5mm !important; }
+
+      h2, h3, .section-kicker, .command-title, .extension-heading {
+        break-after: avoid; page-break-after: avoid;
+      }
+      p, li { orphans: 3; widows: 3; }
+      a { color: inherit; }
+    }
   </style>
 </head>
 <body>
@@ -645,7 +792,7 @@
         <span class="brand-copy"><strong>拾玖说跨境AI</strong><small>Blues19 Patrol Skill</small></span>
       </a>
       <nav class="nav" aria-label="页面导航">
-        <a href="#architecture">技能总览</a><a href="#install">安装配置</a><a href="#markets">九国市场</a><a href="#commands">巡检运行</a><a href="#safety">输出安全</a>
+        <a href="#architecture">技能总览</a><a href="#install">安装配置</a><a href="#markets">九个市场</a><a href="#commands">巡检运行</a><a href="#safety">输出安全</a>
       </nav>
       <div class="header-tools">
         <button class="wide-screen-btn" type="button" data-wide-screen aria-pressed="false" title="进入浏览器全屏显示">
@@ -707,7 +854,7 @@
         <div class="side-title">使用路线</div>
         <a href="#architecture">01 · 技能总览</a>
         <a href="#install">02 · 安装配置</a>
-        <a href="#markets">03 · 九国市场</a>
+        <a href="#markets">03 · 九个市场</a>
         <a href="#commands">04 · 巡检运行</a>
         <a href="#prompts">05 · 智能体指令</a>
         <a href="#safety">06 · 输出安全</a>
@@ -745,16 +892,18 @@
         <section id="install">
           <div class="section-kicker">02 / INSTALL & SETUP</div>
           <h2>先装 ziniaoCLI，再安装巡检 Skill</h2>
-          <p class="section-lead"><strong>先准备运行环境，再安装 Skill。</strong>ziniaoCLI 负责连接紫鸟浏览器店铺会话；完成授权、诊断与店铺可见性检查后，再安装 <code>blues19-amazon-account-patrol</code>。第二子页展示可选扩展方向。</p>
+          <p class="section-lead"><strong>第一次安装也可以照着做。</strong>ziniaoCLI 负责连接紫鸟浏览器店铺会话；完成授权、诊断与店铺可见性检查后，再安装 <code>blues19-amazon-account-patrol</code>。建议新手优先把上方“一句话安装指令”发给智能体，涉及全局安装时先批准，授权登录由本人完成；附录再介绍可选扩展方向。</p>
           <div class="steps">
-            <article class="step"><div class="step-top"><span class="step-icon"><svg><use href="#i-bridge"/></svg></span><span class="step-no">01</span></div><h3>准备 ziniaoCLI 环境</h3><p>安装 CLI、完成授权，并用 <code>doctor</code>、<code>config show</code> 与 <code>store list</code> 验证。</p></article>
-            <article class="step"><div class="step-top"><span class="step-icon"><svg><use href="#i-skill"/></svg></span><span class="step-no">02</span></div><h3>安装完整 Skill</h3><p>安装名称使用 <code>blues19-amazon-account-patrol</code>，不要只复制 <code>SKILL.md</code>。</p></article>
-            <article class="step"><div class="step-top"><span class="step-icon"><svg><use href="#i-terminal"/></svg></span><span class="step-no">03</span></div><h3>验证巡检脚本</h3><p>需要 Python 3.10+；脚本只用标准库，无需安装 <code>requirements.txt</code>。</p></article>
+            <article class="step"><div class="step-top"><span class="step-icon"><svg><use href="#i-terminal"/></svg></span><span class="step-no">01</span></div><h3>打开 PowerShell</h3><p>按 Windows 键，输入“PowerShell”并打开。下方命令粘贴到这里，不要粘贴到浏览器地址栏。</p></article>
+            <article class="step"><div class="step-top"><span class="step-icon"><svg><use href="#i-bridge"/></svg></span><span class="step-no">02</span></div><h3>先装 ziniaoCLI</h3><p>先检查 Node.js 与 Python，再安装 CLI。出现授权链接时，由你本人在浏览器完成登录与授权。</p></article>
+            <article class="step"><div class="step-top"><span class="step-icon"><svg><use href="#i-check"/></svg></span><span class="step-no">03</span></div><h3>确认店铺可见</h3><p><code>doctor</code> 通过、<code>config show</code> 有当前配置、<code>store list</code> 能看到目标店铺，才进入下一步。</p></article>
+            <article class="step"><div class="step-top"><span class="step-icon"><svg><use href="#i-skill"/></svg></span><span class="step-no">04</span></div><h3>再装完整 Skill</h3><p>安装名称必须是 <code>blues19-amazon-account-patrol</code>；不要只复制 <code>SKILL.md</code>。</p></article>
           </div>
 
           <div class="code-card">
             <div class="code-head"><span>PowerShell · 第一步：准备 ziniaoCLI 环境</span><button class="copy-btn" type="button" data-copy-target="code-preflight"><svg><use href="#i-copy"/></svg>复制</button></div>
             <pre id="code-preflight">node -v
+python --version
 npm.cmd install -g @ziniao-open/cli
 ziniao-cli.cmd --version
 ziniao-cli.cmd config init --new
@@ -762,11 +911,12 @@ ziniao-cli.cmd doctor
 ziniao-cli.cmd config show
 ziniao-cli.cmd store list --format table</pre>
           </div>
-          <div class="callout" style="margin-top:16px"><svg><use href="#i-alert"/></svg><div><strong>先让运行环境通过，再安装 Skill</strong>全局安装和授权配置会修改本机环境；让智能体执行时必须先取得用户批准，授权链接由用户本人完成。详细步骤见 <a href="references/setup.md">环境配置</a>。</div></div>
+          <div class="callout" style="margin-top:16px"><svg><use href="#i-alert"/></svg><div><strong>新手判断成功的方法</strong><p><code>node -v</code> 至少显示 v16，<code>python --version</code> 至少显示 3.10；CLI 能显示版本，<code>doctor</code> 没有阻断错误，<code>config show</code> 有当前配置，<code>store list</code> 能看到目标店铺。若提示“不是命令”，先关闭再重新打开 PowerShell；若店铺列表为空，请让紫鸟 Boss/管理员检查你的店铺权限。</p><p>全局安装和授权配置会修改本机环境；让智能体执行时必须先取得你的批准，授权链接必须由你本人完成。密码、OTP 和密钥不要发给智能体。</p><div class="official-resource-links"><a href="https://open.ziniao.com/ziniaoCli" target="_blank" rel="noopener">紫鸟 Ziniao CLI 官方入口 ↗</a><a href="https://open.ziniao.com/docSupport?docId=281" target="_blank" rel="noopener">紫鸟官方安装指南 ↗</a></div></div></div>
 
           <div class="code-card">
             <div class="code-head"><span>PowerShell · 第二步：安装并验证本 Skill</span><button class="copy-btn" type="button" data-copy-target="code-cli-install"><svg><use href="#i-copy"/></svg>复制</button></div>
             <pre id="code-cli-install">npx.cmd skills add ivan51769/blues19-amazon-account-patrol -y
+# 下面由智能体进入安装后的 Skill 目录再执行
 Test-Path .\SKILL.md
 Test-Path .\agents\openai.yaml
 Test-Path .\scripts\amazon_account_patrol.py
@@ -774,7 +924,7 @@ python --version
 python scripts\amazon_account_patrol.py --help
 python -m unittest discover -s tests -v</pre>
           </div>
-          <div class="callout" style="margin-top:16px"><svg><use href="#i-alert"/></svg><div><strong>安装的是整个 Skill 文件夹</strong><code>agents</code> 提供界面元数据，<code>scripts</code> 提供运行器，<code>references</code> 提供市场、选择器与状态机；缺少任一部分都会让能力不完整。</div></div>
+          <div class="callout" style="margin-top:16px"><svg><use href="#i-alert"/></svg><div><strong>看到这些结果才算安装完成</strong><p>安装命令没有报错；三条 <code>Test-Path</code> 都返回 <code>True</code>；<code>--help</code> 能显示参数；测试最后显示 <code>OK</code>。如果你不知道 Skill 安装到了哪里，直接让智能体“找到 blues19-amazon-account-patrol 的安装目录并完成验证”，不要在任意文件夹里盲目执行检查。</p><p>安装的是整个 Skill 文件夹：<code>agents</code> 提供界面元数据，<code>scripts</code> 提供运行器，<code>references</code> 提供市场、选择器与状态机；缺少任一部分都会让能力不完整。</p></div></div>
 
           <div class="ziniao-extension-source">
             <div class="extension-banner">
@@ -881,7 +1031,7 @@ python -m unittest discover -s tests -v</pre>
         </section>
 
         <section id="safety">
-          <div class="section-kicker">05 / OUTPUT & GUARDRAILS</div>
+          <div class="section-kicker">06 / OUTPUT & GUARDRAILS</div>
           <h2>输出什么，什么算完成</h2>
           <p class="section-lead">脚本成功表示站点核验通过、两页实际 URL 与原文已写入 Markdown、两张截图路径非空且文件存在、时间戳日志已生成，并在终端末尾输出结果 JSON；可选飞书以返回的 <code>message_id</code> 证明 API 已受理。</p>
           <div class="output-grid">
@@ -925,6 +1075,7 @@ python -m unittest discover -s tests -v</pre>
       }
 
       const root = document.documentElement;
+      const printMode = new URLSearchParams(location.search).get('print') === '1';
       const themeButtons = Array.from(document.querySelectorAll('[data-theme-choice]'));
       const themes = new Set(['ocean', 'warm', 'violet', 'contrast']);
 
@@ -1021,6 +1172,31 @@ python -m unittest discover -s tests -v</pre>
       const panelNames = ['architecture', 'install', 'markets', 'commands', 'safety'];
       const panels = panelNames.map((name) => document.getElementById(name));
       const workspaceTabs = Array.from(document.querySelectorAll('.nav a[href^="#"]'));
+
+      if (printMode) {
+        root.classList.add('print-ready');
+        const installPanel = document.getElementById('install');
+        const steps = installPanel?.querySelector(':scope > .steps');
+        if (quickCopy && steps) steps.after(quickCopy);
+
+        const reportExample = document.querySelector('.report-example');
+        const architecturePanel = document.getElementById('architecture');
+        if (reportExample && architecturePanel) {
+          reportExample.querySelector('[data-report-full]')?.removeAttribute('href');
+          architecturePanel.append(reportExample);
+        }
+
+        const extensionPanel = document.querySelector('.ziniao-extension-source');
+        const safetyPanel = document.getElementById('safety');
+        if (extensionPanel && safetyPanel) {
+          const heading = document.createElement('div');
+          heading.className = 'print-only print-extension-heading';
+          heading.innerHTML = '<div class="section-kicker">07 / ZINIAO CLI EXTENSIONS</div><h2>附录：结合紫鸟官网继续扩展</h2><p class="section-lead">本附录介绍 Ziniao CLI 的官方能力入口与更多 Skill 制作方向；它不属于本巡检 Skill 的必装步骤。</p>';
+          extensionPanel.prepend(heading);
+          extensionPanel.classList.add('print-extension-appendix');
+          safetyPanel.after(extensionPanel);
+        }
+      }
 
       function buildInstallPage(installPanel, quickCopyPanel) {
         const steps = installPanel.querySelector(':scope > .steps');
@@ -1161,7 +1337,7 @@ python -m unittest discover -s tests -v</pre>
         activateRunPanel(0);
       }
 
-      if (workspaceShell && layout && workspaceMain && hero && quickCopy && panels.every(Boolean) && workspaceTabs.length === panels.length) {
+      if (!printMode && workspaceShell && layout && workspaceMain && hero && quickCopy && panels.every(Boolean) && workspaceTabs.length === panels.length) {
         const [architecturePanel, installPanel, , commandsPanel] = panels;
         const promptsPanel = document.getElementById('prompts');
 

@@ -116,7 +116,8 @@ python scripts\amazon_account_patrol.py `
 
 ## 使用指引与技术资料
 
-- [HTML 图文使用指引](blues19-amazon-account-patrol-使用指引.html)：图片已经内嵌，单独下载这个 HTML 也能完整显示；包含分页演示、主题切换和复制按钮。
+- [PDF 纵向新手使用指引](output/pdf/blues19-amazon-account-patrol-使用指引.pdf)：A4 纵向、全部章节连续展开；从打开 PowerShell 开始，按“ziniao-cli → 授权与店铺验证 → Skill → 巡检”逐步讲解，并包含脱敏周报截图。
+- [HTML 图文使用指引](blues19-amazon-account-patrol-使用指引.html)：图片已经内嵌，单独下载这个 HTML 也能完整显示；保留主题切换和复制按钮，打印时使用纵向连续版式。
 - [环境安装与配置](references/setup.md)：Python、Node.js、`ziniao-cli`、授权和店铺可见性检查。
 - [巡检执行流程](references/workflow.md)：状态机、证据标准和重试边界。
 - [市场映射](references/marketplace-label-map.md)：9 个市场的公开标识。
@@ -137,6 +138,8 @@ blues19-amazon-account-patrol/
 ├─ assets/
 │  ├─ wechat-logo.jpg
 │  └─ patrol-report-example.png
+├─ output/pdf/
+│  └─ blues19-amazon-account-patrol-使用指引.pdf
 └─ blues19-amazon-account-patrol-使用指引.html
 ```
 
